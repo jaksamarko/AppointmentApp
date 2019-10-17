@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online időpont foglaló reszponzív oldal">
+    <meta name="author" content="Jaksa Márkó">
+    <meta name="keywords" content="Fodrászat,Hajvágás,Hajfestés,Kecskemét,Gyors">
+
+    <link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="css/core/main.min.css">
+    <link rel="stylesheet" type="text/css" href="css/daygrid/main.min.css">
+    <link rel="stylesheet" type="text/css" href="css/timegrid/main.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/main.min.css">
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 0px auto;
+        }
+        #phoneField[pattern]:invalid{
+            color:red;
+        }
+        .noclick {
+            pointer-events: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .invalid {
+            border: 1px solid #dc354588;
+        }
+    </style>
+    <title>Kriszti fordrászat</title>
+</head>
+<body>
+<nav class="nav m-4" tabindex="-1">
+    <div class="container">
+        <a class="btn btn-primary" href="#">Időpontjaim</a>
+        <a class="btn btn-outline-primary" href="about.html">Rólam</a>
+        <a class="btn btn-outline-primary" href="works.html">Munkáim</a>
+        <a class="btn btn-outline-danger" href="login.html" id="login">Bejelentkezés</a>
+        <button class="btn btn-outline-danger d-none" id="signout">Kijelentkezés</button>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="flex-column col-lg-4 d-flex justifiy-content-center">
+            <div class="row">
+                <div class="col-10 flex-column align-self-center mx-auto">
+                    <button type="button" id="newBt" class="my-2 btn btn-block btn-primary btn-lg">Új időpont foglalása</button>
+                    <button type="button" id="delBt" class="my-2 btn btn-block btn-danger btn-lg">Időpont törlése</button>
+                </div>
+                <form id="new" class="needs-validation col-md-12 flex-column align-self-center d-none" novalidate>
+                    <div id="newForm" class="form-group">
+                        <label for="nameField">Név</label>
+                        <input type="text" class="form-control" id="nameField" placeholder="Teljes név" required>
+                        <div class="invalid-feedback">Kérem adja meg a nevét!</div>
+
+                        <label for="phoneField">Telefonszám:</label>
+                        <input type="tel" class="form-control" id="phoneField" placeholder="+36..." pattern="((^06)|(^\+36)){1}(\d{9}$)" required>
+                        <div class="invalid-feedback">Kérem adjon meg egy érvényes telefonszámot!</div>
+                        <p class="form-text text-muted">Ha bármi van, ezen keresztül értesítelek!</p>
+
+                        <label for="hairLength">Hajhossz:</label>
+                        <div class="list-group" id="hairLength">
+                            <a class="list-group-item list-group-item-action" id="hairShort">Rövid</a>
+                            <a class="list-group-item list-group-item-action" id="hairMedium">Közepes</a>
+                            <a class="list-group-item list-group-item-action" id="hairLong">Hosszú</a>
+                        </div>
+                        <div id="checkError" style="color: red"></div>
+                        <div class="form-check m-2">
+                            <input type="checkbox" name="task" id="checkCut" class="newchecks">
+                            <label class="form-check-label" for="checkCut">Hajvágás</label>
+                        </div><div class="form-check m-2">
+                        <input type="checkbox" name="task" id="checkColorize">
+                        <label class="form-check-label" for="checkColorize">Hajfejtés</label>
+                    </div><div class="form-check m-2">
+                        <input type="checkbox" name="task" id="checkExtra">
+                        <label class="form-check-label" for="checkColorize">Hajpótlás</label>
+                    </div><div class="form-check m-2">
+                        <input type="checkbox" name="task" id="checkClean">
+                        <label class="form-check-label" for="checkColorize">Hajmosás</label>
+                    </div>
+                        <div class="form-group">
+                            <label for="pwField">Jelszó (Opcionális)</label>
+                            <input type="text" class="form-control" id="pwField" placeholder="Jelszó">
+                            <p class="form-text text-muted">Amennyiben módosítani vagy törölni akarja időpontját, azt hívással vagy egy megadott jelszó alapján teheti majd meg</p>
+                        </div>
+                        <button type="submit" class="btn btn-outline-primary" id="newReq">Tovább</button>
+                    </div>
+                </form>
+                <form id="del" class="needs-validation col-md-12 align-self-center d-none">
+                    <p class="form-text text-muted">1. Lépés: válassza ki a törölni kívánt időpont napját a naptárban!</p><hr><p class="form-text text-muted">2. Lépés:Írja be az időponthoz megadott jelszót.</p>
+                    <label for="pwFieldDel">Jelszó</label>
+                    <input type="text" class="form-control" id="pwFieldDel" placeholder="Jelszó" required><br>
+                    <p class="form-text text-muted">Amennyiben nem adott meg ilyet, kérem hívjon fel hogy egyeztessünk!</p>
+                    <button type="submit" class="btn btn-outline-danger" id="delReq">Törlés</button>
+                </form>
+                <form id="delAdmin" class="needs-validation col-md-12 align-self-center d-none">
+                    <p class="form-text text-muted">1. Lépés: válassza ki a törölni kívánt időpont napját a naptárban!</p><hr><p class="form-text text-muted">2. Lépés:Írja be az időponthoz megadott telefonszámot.</p>
+                    <label for="phoneFieldDel">Telefonszám</label>
+                    <input type="tel" class="form-control" id="phoneFieldDel" placeholder="+36..." pattern="((^06)|(^\+36)){1}(\d{9}$)" required>
+                    <button type="submit" class="btn btn-outline-danger" id="delReqAdmin">Törlés</button>
+                </form>
+            </div>
+        </div>
+        <div id='calendar' class="d-flex flex-column col-lg-8" style="flex-direction: column"></div>
+        <div id="eventBox" class="row mx-auto d-none">
+            <div class="col-8 btn btn-primary my-3 mx-auto btn-lg noclick col-10 fc-event" id="event">Időpont</div>
+            <p class="col-8 h5 text-muted mx-auto">Húzza be az időpont ikonját a naptárba!</p>
+            <div class="col-8 btn btn-danger my-2 btn mx-auto" id="eventcancel">Mégse</div>
+        </div>
+    </div>
+</div>
+
+</body>
+<footer>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src='js/core/main.min.js'></script>
+    <script src='js/daygrid/main.min.js'></script>
+    <script src='js/timegrid/main.min.js'></script>
+    <script src='js/bootstrap/main.min.js'></script>
+    <script src='js/interaction/main.min.js'></script>
+
+    <script src='js/fbaseAuth.js'></script>
+    <script src='js/fbaseSetup.js'></script>
+    <script src='js/hairdresser.js'></script>
+    <script src='js/mainUi.js'></script>
+    <script src='js/main.js'></script>
+</footer>
+</html>

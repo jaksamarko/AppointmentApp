@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Online időpont foglaló reszponzív oldal">
+    <meta name="author" content="Jaksa Márkó">
+    <meta name="keywords" content="Fodrászat,Hajvágás,Hajfestés,Kecskemét,Gyors">
+    <title>Munkáim</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet'>
+    <style>
+        img {
+            width: 100%;
+            height: auto;
+        }
+        .no-gutters {
+            margin-right: 0;
+            margin-left: 0;
+
+        > .col,
+        > [class*="col-"] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav m-4" tabindex="-1">
+        <div class="container">
+            <a class="btn btn-outline-secondary" href="index.html">Időpontjaim</a>
+            <a class="btn btn-outline-primary" href="about.html">Rólam</a>
+            <a class="btn btn-primary" href="#">Munkáim</a>
+            <a class="btn btn-outline-danger" href="login.html" id="login">Bejelentkezés</a>
+            <a class="btn btn-outline-danger d-none" href="works.html" id="signout">Kijelentkezés</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="nav row">
+            <a class="btn filter-button" data-filter="all">Összes</a>
+            <a class="btn filter-button" data-filter="male">Férfi</a>
+            <a class="btn filter-button" data-filter="female">Női</a>
+        </div>
+
+        <div class="row no-gutters">
+            <div class="col-lg-3 col-sm-4 col-xs-5 filter male"><img src="img/gallery/img.jpg"></div>
+            <div class="col-lg-3 col-sm-4 col-xs-5 filter female"><img src="img/gallery/img.jpg"></div>
+            <div class="col-lg-3 col-sm-4 col-xs-5 filter male"><img src="img/gallery/img.jpg"></div>
+            <div class="col-lg-3 col-sm-4 col-xs-5 filter female"><img src="img/gallery/img.jpg"></div>
+            <div class="col-lg-3 col-sm-4 col-xs-5 filter male"><img src="img/gallery/img.jpg"></div>
+            <div class="col-lg-3 col-sm-4 col-xs-5 filter female"><img src="img/gallery/img.jpg"></div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
+    <script src='js/fbaseAuth.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+
+        document.addEventListener('DOMContentLoaded',function() {
+            fbaseAuth();
+            const bt=$(".filter-button"),cont=$('.filter');
+            cont.hide().fadeIn(1000);
+            bt.click(function(){
+                var value = $(this).attr('data-filter');
+                cont.hide();
+                if(value === "all") {
+                    cont.fadeIn(800);
+                } else {
+                    cont.filter('.'+value).fadeIn(800);
+                }
+
+
+            });
+            /*
+            if (bt.removeClass("active")) {
+                $(this).removeClass("active");
+            }
+            $(this).addClass("active");*/
+
+        });
+    </script>
+</body>
+</html>

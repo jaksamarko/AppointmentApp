@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Online időpont foglaló reszponzív oldal">
+    <meta name="author" content="Jaksa Márkó">
+    <meta name="keywords" content="Fodrászat,Hajvágás,Hajfestés,Kecskemét,Gyors">
+    <title>Bejelentkezés</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body>
+    <nav class="nav m-4" tabindex="-1">
+        <div class="container">
+            <a class="btn btn-outline-primary" href="index.html">Időpontjaim</a>
+            <a class="btn btn-outline-primary" href="about.html">Rólam</a>
+            <a class="btn btn-outline-primary" href="works.html">Munkáim</a>
+            <a class="btn btn-outline-danger" href="#" id="login">Bejelentkezés</a>
+            <a class="btn btn-outline-danger d-none" href="login.html" id="signout">Kijelentkezés</a>
+        </div>
+    </nav>
+    <div class="col-lg-3 col-md-4 col-sm-8 d-flex flex-column  mx-auto my-5">
+            <div class="form-group">
+                <label for="email">Email cím</label>
+                <input type="email" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+                <label for="password">Jelszó</label>
+                <input type="password" class="form-control" id="password">
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn-primary form-control" id="signin" value="Bejelentkezés">
+            </div>
+
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase-auth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src='js/fbaseAuth.js'></script>
+<script>
+    fbaseAuth();
+    $("#signin").click(function(){
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+            .then(function() {
+                firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val()).then(function(){
+                    location='index.html'
+                });
+            })
+            .catch(function(error) {
+                alert(error.code+":"+error.message)
+            });
+    })
+
+
+
+</script>
+</body>
+</html>
